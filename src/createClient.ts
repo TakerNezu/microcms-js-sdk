@@ -147,7 +147,7 @@ export const createClient = ({ serviceDomain, apiKey }: MicroCMSClient) => {
     const baseHeaders: RequestInit = {
       headers: {
         'X-MICROCMS-API-KEY': apiKey,
-        // 'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
       method: "POST",
       body: JSON.stringify(body)
