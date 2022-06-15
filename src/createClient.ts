@@ -153,10 +153,14 @@ export const createClient = ({ serviceDomain, apiKey }: MicroCMSClient) => {
       body: JSON.stringify(body)
     };
 
+    console.log(JSON.stringify(body))
+
     const url = `${baseUrl}/${endpoint}`;
 
     try {
       const response = await fetch(url, baseHeaders);
+
+      console.dir(response)
 
       if (!response.ok) {
         throw new Error(`fetch API response status: ${response.status}`);
