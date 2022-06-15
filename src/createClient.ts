@@ -2,7 +2,7 @@
  * microCMS API SDK
  * https://github.com/microcmsio/microcms-js-sdk
  */
-import fetch from 'node-fetch';
+import fetch, { RequestInit } from 'node-fetch';
 import { parseQuery } from './utils/parseQuery';
 import { isString } from './utils/isCheckValue';
 import {
@@ -140,10 +140,49 @@ export const createClient = ({ serviceDomain, apiKey }: MicroCMSClient) => {
     });
   };
 
+  /**
+   * Post 
+   */
+  const post = async <T = any>(endpoint: string, body: T) => {
+    const baseHeaders: RequestInit = {
+      headers: {
+        'X-MICROCMS-API-KEY': apiKey,
+        'Content-Type': 'application/json'
+      },
+      method: "POST",
+      body: JSON.stringify(body)
+    };
+
+    const url = `${baseUrl}/${endpoint}`;
+
+    try {
+      const response = await fetch(url, baseHeaders);
+
+      if (!response.ok) {
+        throw new Error(`fetch API response status: ${response.status}`);
+      }
+
+      return response.json();
+    } catch (error) {
+      if (error.data) {
+        throw error.data;
+      }
+
+      if (error.response?.data) {
+        throw error.response.data;
+      }
+
+      return Promise.reject(
+        new Error(`serviceDomain or endpoint may be wrong.\n Details: ${error}`)
+      );
+    }
+  }
+
   return {
     get,
     getList,
     getListDetail,
     getObject,
+    post,
   };
 };
