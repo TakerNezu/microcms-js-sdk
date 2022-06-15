@@ -1,2 +1,3 @@
 node_modules
-dist
+# リポジトリからYarnで取るために、リポジトリに含む
+# dist
