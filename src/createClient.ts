@@ -150,7 +150,7 @@ export const createClient = ({ serviceDomain, apiKey }: MicroCMSClient) => {
         'Content-Type': 'application/json',
       },
       method: "POST",
-      body: JSON.stringify(body)
+      body: encodeURIComponent(JSON.stringify(body))
     };
 
     console.log(JSON.stringify(body))
