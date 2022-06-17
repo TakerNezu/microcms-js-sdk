@@ -144,16 +144,17 @@ export const createClient = ({ serviceDomain, apiKey }: MicroCMSClient) => {
    * Post 
    */
   const post = async <T = any>(endpoint: string, body: T) => {
+    const bodyEncoded = JSON.stringify(body).replace(/\"/g, "\\\"")
     const baseHeaders: RequestInit = {
       headers: {
         'X-MICROCMS-API-KEY': apiKey,
         'Content-Type': 'application/json',
       },
       method: "POST",
-      body: encodeURIComponent(JSON.stringify(body))
+      body: bodyEncoded
     };
 
-    console.log(JSON.stringify(body))
+    console.log(bodyEncoded)
 
     const url = `${baseUrl}/${endpoint}`;
 
