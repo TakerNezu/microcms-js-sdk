@@ -144,7 +144,8 @@ export const createClient = ({ serviceDomain, apiKey }: MicroCMSClient) => {
    * Post 
    */
   const post = async <T = any>(endpoint: string, body: T) => {
-    const bodyEncoded = JSON.stringify(body).replace(/\"/g, "\\\"")
+    const bodyEncoded = JSON.stringify(body)
+    // const bodyEncoded = JSON.stringify(body).replace(/\"/g, "///"")
     const baseHeaders: RequestInit = {
       headers: {
         'X-MICROCMS-API-KEY': apiKey,
@@ -154,17 +155,16 @@ export const createClient = ({ serviceDomain, apiKey }: MicroCMSClient) => {
       body: bodyEncoded
     };
 
-    console.log(bodyEncoded)
-
     const url = `${baseUrl}/${endpoint}`;
 
     try {
       const response = await fetch(url, baseHeaders);
 
-      console.dir(response)
-
       if (!response.ok) {
-        throw new Error(`fetch API response status: ${response.status}`);
+        
+        console.log(bodyEncoded)
+        console.dir(response)
+        throw new Error(`fetch API response status: ${response.status}; response body: ${response.body}`);
       }
 
       return response.json();
